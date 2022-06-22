@@ -1,0 +1,31 @@
+.flex{
+    display: flex;
+}
+
+.header-logo{
+    width: 20%;
+}
+.header-logo img{
+    width: 100%;
+}
+
+.header-list{
+    width: 80%;
+}
+
+.header-list ul{
+    list-style: none;
+}
+
+.header-list ul:nth-child(1){
+    width: 80%;
+    justify-content: center;
+}
+.header-list ul:nth-last-child(1){
+    width: 20%;
+    justify-content: space-evenly;
+}
+.header-list ul li{
+    padding: 0 2%;
+}
+

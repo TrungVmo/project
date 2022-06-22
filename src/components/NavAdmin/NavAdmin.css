@@ -1,0 +1,12 @@
+.admin{
+    display: flex;
+}
+.admin-nav{
+    width: 30%;
+}
+.admin-nav img{
+    width: 80%;
+}
+.admin-main{
+    width: 70%;
+}

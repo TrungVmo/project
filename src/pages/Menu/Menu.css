@@ -1,0 +1,61 @@
+
+.menu-top{
+    width: 100%;
+    background-image: url('https://preview.colorlib.com/theme/dingo/img/breadcrumb.png.webp');
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFF;
+    font-size: 50px;
+    font-family: unset;
+}
+.menu-top::after{
+    background-color: #000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+    opacity: 0.6;
+    z-index: -1;
+}
+
+.menu-content div{
+    justify-content: space-between;
+
+}
+.menu-content ul li{
+    list-style: none;
+    padding-right: 30px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.menu-content ul li svg{
+    color: #ff6426;
+}
+.span{
+    font-size: 35px;
+    line-height: 40px;
+    font-weight: 700;
+    z-index: 1;
+    position: relative;
+}
+.span::after{
+    width: 90px;
+    height: 10px;
+    position: absolute;
+    content: "";
+    bottom: 20px;
+    z-index: -1;
+    left: 0;
+    background-color: #ff6426;
+}

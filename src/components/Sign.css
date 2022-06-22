@@ -1,0 +1,16 @@
+.sign{
+    display: flex;
+    justify-content: space-between;
+    padding: 5%;
+    box-sizing: border-box;
+    background: oldlace;
+}
+.sign-img{
+    width: 48%;
+    display: flex;
+    background: cadetblue;
+    border-radius: 0 0 70% 0;
+}
+.sign-img img{
+    width: 100%;
+}
