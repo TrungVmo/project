@@ -13,13 +13,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="">
+        Nguyen Dinh Trung
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -30,14 +32,26 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignInForm() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        `${data.get('email')}`,
+        `${data.get('password')}`
+      );
+      console.log('user',user.user);
+      // localStorage.setItem('user', JSON.stringify(user))
+      // if(user?.user?.email === "trung@gmail.com"){
+        
+      // }
+      console.log(auth.currentUser);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
 
   return (
@@ -91,7 +105,7 @@ export default function SignInForm() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Sign In
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

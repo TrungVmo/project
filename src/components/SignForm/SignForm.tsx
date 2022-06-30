@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db} from '../../firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, setDoc } from 'firebase/firestore';
 
 function Copyright(props: any) {
   return (
@@ -33,22 +33,28 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignForm() {
-  const [email, setEmail]= React.useState<string>();
-  const [password, setPassword] = React.useState();
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data: any = new FormData(event.currentTarget);
-    // setEmail(data.get('email'))
-    createUserWithEmailAndPassword(auth, data?.get('email'), data?.get('password'))
-   addDoc(collection(db, "users"), {
-      firstname: data.get('firstName'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      phone: data.get('phone'),
-      address: data.get('address')
-   })
-
+    let user: any = null;
+    try {
+     user = await createUserWithEmailAndPassword(auth, data?.get('email'), data?.get('password'));
+     const docRef= doc(db,"users",user?.user.uid);
+     
+      if(user){
+      setDoc(docRef, {
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName'),
+        email: data.get('email'),
+        phone: data.get('phone'),
+        address: data.get('address')
+    })
+   }
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
 
   return (

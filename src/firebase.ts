@@ -1,4 +1,5 @@
 import { fbConfig, firebaseCf } from "./env";
+
 import { initializeApp } from 'firebase/app';
 import {getFirestore} from '@firebase/firestore';
 import {getStorage} from '@firebase/storage';
@@ -15,7 +16,7 @@ const firebaseConfig: firebaseCf = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const auth: any = getAuth(app);
 const db= getFirestore(app);
 const storage = getStorage(app);
 
