@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../components/Sign.css' ;
 import SignInForm from '../../components/SignInForm/SignInForm';
+import { auth } from '../../firebase';
 
 const SignUp: React.FC = () => {
 

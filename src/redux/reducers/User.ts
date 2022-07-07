@@ -19,6 +19,19 @@ const listUsersReducer = (state = initialState, action: any) => {
     }
 }
 
+const getAUserReducer = (state = initialState, action: any) => {
+    switch(action.type){
+        case actionsUser.GET_AUSER:
+            return {...state, loading: true}
+        case actionsUser.GET_AUSER_SUCCESS:
+            return {...state, loading: false, data: action.payload}
+        case actionsUser.GET_AUSER_FAIL:
+            return {...state, loading: false, data: action.payload}
+        default:
+            return state            
+    }
+}
+
 // const addFoodsReducer = (state = initialStateAdd, action: any) => {
 //     switch(action.type){
 //         case actionsFood.ADD_FOOD:
@@ -58,4 +71,4 @@ const listUsersReducer = (state = initialState, action: any) => {
 //     }
 // }
 
-export {listUsersReducer};
+export {listUsersReducer, getAUserReducer};

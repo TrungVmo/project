@@ -3,12 +3,16 @@ import { db } from '../../firebase';
 
 export const actionsUser = Object.freeze({
     REGISTER: 'REGISTER',
-    REGSTER_SUCCES: 'REGISTER_SUCCESS',
+    REGSTER_SUCCESS: 'REGISTER_SUCCESS',
     REGISTER_FAIL: 'REGISTER_FAIL',
 
     GET_USER: 'GET_USER',
     GET_USER_SUCCESS: 'GET_USER_SUCCESS',
     GET_USER_FAIL: 'GET_USER_FAIL',
+
+    GET_AUSER: 'GET_AUSER',
+    GET_AUSER_SUCCESS: 'GET_AUSER_SUCCESS',
+    GET_AUSER_FAIL: 'GET_AUSER_FAIL',
 
 })
 
@@ -34,12 +38,30 @@ const listUsers = () => async (dispatch: any) => {
     }
 }
 
-// const registerUser = () => ({
-//     type: actionsAuth.REGISTER
-// })
+// get a user
 
-// const getUser = () => ({
-//     type: actionsAuth.GET_USER
-// })
+const getAUser = (idUser: string) => async (dispatch: any) => {
+    let userData:any = [];
+    const getUser = async () => {
+        const data = await getDoc(doc(db,'users', idUser));
+        let user = {};
+        if(data.exists()){
+            user = data.data();
+            return user;
+        }  
+    }
 
-export default listUsers;
+    try{
+        userData = await getUser();
+
+        dispatch({type: actionsUser.GET_AUSER})
+
+        dispatch({type: actionsUser.GET_AUSER_SUCCESS, payload: userData})
+    }catch(err){
+        dispatch({
+            type: actionsUser.GET_AUSER_FAIL, payload: err
+        })
+    }
+}
+
+export {listUsers, getAUser};

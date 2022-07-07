@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, addDoc, getDoc, query, where, limit } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { db, storage } from '../../firebase';
 
@@ -14,6 +14,10 @@ export const actionsFood = Object.freeze({
     GET_AFOOD: 'GET_AFOOD',
     GET_AFOOD_SUCCESS: 'GET_AFOOD_SUCCESS',
     GET_AFOOD_FAIL: 'GET_AFOOD_FAIL',
+
+    GET_FILTER: 'GET_FILTER',
+    GET_FILTER_SUCCESS: 'GET_FILTER_SUCCESS',
+    GET_FILTER_FAIL: 'GET_FILTER_FAIL',
 
     UPDATE_FOOD: 'UPDATE_FOOD',
     UPDATE_FOOD_SUCCESS: 'UPDATE_FOOD_SUCCESS',
@@ -51,7 +55,7 @@ const getAFood = (idFood: string) => async (dispatch: any) => {
 
 // get list food
 const listFoods = () => async (dispatch: any) => {
-    let foodData = [];
+    let foodData: any = [];
     const getFoods = async () => {
         const data = await getDocs(collection(db, 'Food-product'));
         const foodList = data.docs.map((doc:any) => ({ ...doc.data(), id: doc.id }));
@@ -161,4 +165,29 @@ const removeFood = (idFood: string) => async (dispatch: any) => {
     }
 }
 
-export {listFoods, addFood, updateFood, removeFood, getAFood};
+// 
+
+const getFilterFood = (type: any) => async (dispatch: any) => {
+    let filterData: any = [];
+
+    const getFoods = async () => {
+        const q = query(collection(db, "Food-product"),where("type", "==", type));
+        const querySnapshot = await getDocs(q);
+        const listData = querySnapshot.docs.map((doc: any) => ({...doc.data(), id: doc.id}));
+        return listData;
+    }
+
+    try{
+        filterData = await getFoods()
+
+        dispatch({type: actionsFood.GET_FILTER})
+
+        dispatch({type: actionsFood.GET_FILTER_SUCCESS, payload: filterData})
+    }catch(err){
+        dispatch({
+            type: actionsFood.GET_FILTER_FAIL, payload: err
+        })
+    }
+}
+
+export {listFoods, addFood, updateFood, removeFood, getAFood, getFilterFood};
