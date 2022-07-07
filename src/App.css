@@ -2,9 +2,18 @@
   margin: 0;
   padding: 0;
 }
-.App {
+/* .App {
   padding: 2% 5%;
-}
+} */
 .flex{
   display: flex;
 }
+a{
+  text-decoration: none;
+}
+.done{
+  color: green;
+}
+/* .pending{
+  color: red;
+} */

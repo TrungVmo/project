@@ -1,5 +1,5 @@
 .detail{
-    padding: 2% 8%;
+    padding: 60px 8%;
     /* justify-content: space-between; */
 }
 .detail-img, .detail-description{
@@ -33,6 +33,10 @@
 }
 
 /*  */
+.rating-main{
+    padding: 10px 0;
+    box-sizing: border-box;
+}
 
 .rating-main img{
     width: 50px;

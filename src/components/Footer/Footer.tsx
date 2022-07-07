@@ -25,13 +25,14 @@ const Footer: React.FC = () => {
                 </div>
             </div>
             <div className='footer__main'>
-                <h2> <span>Khởi tạo</span> công thức mới</h2>
-                <p>Công thức món ăn của bạn là gì! Bạn đã bao giờ nhìn vào một sản phẩm thực phẩm thương mại
-                    và tự hỏi làm thế nào để làm cho nó? Không thành vấn đề. 
-                    Sử dụng kỹ thuật chuyên nghiệp này để tạo lại một công thức từ bất kỳ dinh dưỡng nào</p>
+                <h2> <span>Recreate</span> a Recipe</h2>
+                <p>Figure out what is in your food! Have you ever looked at a commercial
+                    food product and wondered how to make it? Not a problem. Use this professional technique
+                    to recreate a recipe from any nutrition label.
+                </p>
             </div>
             <div className='footer__bot '>
-                <h3>Về chúng tôi</h3>
+                <h3>About us</h3>
                 <div>
                     <FacebookRoundedIcon />
                     <TwitterIcon />

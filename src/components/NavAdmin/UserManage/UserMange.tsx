@@ -7,10 +7,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useDispatch, useSelector } from 'react-redux';
-import listUsers from '../../../redux/actions/Auth';
+import {listUsers} from '../../../redux/actions/Auth';
 import { ItemUser } from '../../../redux/constants';
+import DeleteUser from './DeleteUser';
 
-const UserManage = () => {
+const UserManage: React.FC = () => {
 
     const dispatch = useDispatch<any>();
     const userData = useSelector((state: any) => state.userList.data);
@@ -54,8 +55,8 @@ const UserManage = () => {
                             <TableCell align="center">{item.address}</TableCell>
                             <TableCell align="center">{item.phone}</TableCell>
                             <TableCell align="center">
-                                {/* <DeleteFood item={item} />
-                                <UpdateFood item={item} /> */}
+                                <DeleteUser item={item} />
+                                {/* <UpdateFood item={item} /> */}
                             </TableCell>
                         </TableRow>
                     ))}

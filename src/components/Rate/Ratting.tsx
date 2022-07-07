@@ -1,24 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Rating from '@mui/material/Rating';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const RatingComment:React.FC = () => {
+interface Test{
+    item: any
+}
+
+const RatingComment:React.FC<Test> = ({item}) => {
+    console.log('item', item);
+  
+    const [userData, setUserData] = useState<any>();
+    const getA = async() => {
+        try {
+            const data: any = await getDoc(doc(db,'users', item.id));
+            if(data.exists()){
+                setUserData(data.data()) ;
+            }   
+        } catch (error) {
+            console.log('errrr', error);
+        }
+    } 
+    useEffect(() => {
+       getA();
+    },[])
+
+    console.log('ggg', userData);
     return (
         <div className='rating-main flex'>
-            <img src='./logo192.png' />
-            <div>
-                <p>
-                    <strong>trung 2000</strong>
-                </p>
-                <Rating
-                    name="simple-controlled"
-                    // value={value}
-                    defaultValue={2}
-                />
-                <p>
-                    <span>2022</span>
-                </p>
-                <p>mon an ngon</p>
-            </div>
+            {
+                userData && item ? (
+                    <>
+                        <AccountCircleIcon style={{fontSize: 50}} />
+                        <div>
+                            <p>
+                                <strong>{userData?.lastName}</strong>
+                            </p>
+                            <Rating
+                                name="rate-only"
+                                // value={parseInt(item.rate)}
+                                defaultValue={parseInt(item.rate)}
+                                readOnly
+                            />
+                            <p>
+                                <span>{item.date}</span>
+                            </p>
+                            <p>Đánh giá: {item.comment}</p>
+                        </div>
+                    </>
+                ) : (
+                    <></>
+                )
+            }
         </div>
     );
 };

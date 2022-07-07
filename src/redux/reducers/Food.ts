@@ -33,6 +33,19 @@ const getAFoodReducer = (state = initialState, action: any) => {
     }
 }
 
+const getFilterReducer = (state = initialState, action: any) => {
+    switch(action.type){
+        case actionsFood.GET_FILTER:
+            return {...state, loading: true}
+        case actionsFood.GET_FILTER_SUCCESS:
+            return {...state, loading: false, data: action.payload}
+        case actionsFood.GET_FILTER_FAIL:
+            return {...state, loading: false, data: action.payload}
+        default:
+            return state            
+    }
+}
+
 const addFoodsReducer = (state = initialStateAdd, action: any) => {
     switch(action.type){
         case actionsFood.ADD_FOOD:
@@ -72,4 +85,10 @@ const removeFoodsReducer = (state = initialStateAdd, action: any) => {
     }
 }
 
-export {listFoodsReducer, addFoodsReducer, updateFoodsReducer, removeFoodsReducer, getAFoodReducer};
+export {listFoodsReducer, 
+    addFoodsReducer, 
+    updateFoodsReducer,
+    removeFoodsReducer, 
+    getAFoodReducer,
+    getFilterReducer
+};

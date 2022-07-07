@@ -9,7 +9,7 @@ import {SelectChangeEvent} from '@mui/material';
 import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFood } from '../../../redux/actions/Food';
-import FoodManage from '../FoodManage/FoodManage';
+import { getCategorys } from '../../../redux/actions/Category';
 
 const ProductAdmin: React.FC = () => {
 
@@ -20,7 +20,7 @@ const ProductAdmin: React.FC = () => {
     const [priceFood, setPriceFood] = useState<number>(0);
 
     const [preview, setPreview] = useState();
-    
+    const dispatch = useDispatch<any>();
 
     useEffect(() => {
         if(!foodImg){
@@ -45,7 +45,13 @@ const ProductAdmin: React.FC = () => {
         setFoodImg(e.target.files[0]);
     }
 
-    const dispatch = useDispatch<any>();
+    const typeList = useSelector((state: any) => state.cateList.data)
+    useEffect(() => {
+        dispatch(getCategorys())
+    },[]);
+
+    console.log(typeList);
+    
     const test = useSelector((state: any) => state.foodList)
     const addFoods = async(e: any) => {
         e.preventDefault();
@@ -74,6 +80,7 @@ const ProductAdmin: React.FC = () => {
                     <span>Name</span>
                     <TextField 
                         id="outlined-basic" 
+                        name="nameFood"
                         label="Name Food" 
                         variant="outlined" 
                         style={{width: '50%'}}
@@ -84,6 +91,7 @@ const ProductAdmin: React.FC = () => {
                     <span>Description</span>
                     <TextField 
                         id="outlined-basic" 
+                        name="desFood"
                         label="Description" 
                         variant="outlined" 
                         style={{width: '50%'}}
@@ -94,6 +102,7 @@ const ProductAdmin: React.FC = () => {
                     <span>Cost</span>
                     <TextField 
                         id="outlined-basic" 
+                        name="priceFood"
                         label="Cost" 
                         variant="outlined" 
                         style={{width: '50%'}}
@@ -109,14 +118,16 @@ const ProductAdmin: React.FC = () => {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             label="Type"
-                            
+                            name="typeFood"
                             required
                             value={typeFood}
                             onChange={(event: SelectChangeEvent<string>) => setTypeFood(event.target.value)}
                             >
-                            <MenuItem value='Food'>Food</MenuItem>
-                            <MenuItem value='Drink'>Drink</MenuItem>
-                            <MenuItem value='Coffee'>Coffee</MenuItem>
+                            {
+                                typeList && typeList.map((item: any) => (
+                                    <MenuItem value={item.type} key={item.id}>{item.type}</MenuItem>
+                                )) 
+                            }
                         </Select>
                     </FormControl>
                     
@@ -131,12 +142,13 @@ const ProductAdmin: React.FC = () => {
                         <img src={preview} />
                     )
                 }
-                <Button 
-                    variant="contained" 
-                    
-                    type='submit'
-                    >Add Food
-                </Button>
+                <div className='text-endLine'>
+                    <Button 
+                        variant="contained" 
+                        type='submit'
+                        >Add Food
+                    </Button>
+                </div>
             </form>
         </>
     );

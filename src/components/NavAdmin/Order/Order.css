@@ -1,0 +1,6 @@
+.done{
+    color: green !important;
+}
+.pending{
+    color: red !important;
+}

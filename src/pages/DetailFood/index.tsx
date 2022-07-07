@@ -12,6 +12,8 @@ import { getAuth } from 'firebase/auth';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAFood } from '../../redux/actions/Food';
+import {onValue, ref, set, getDatabase, get, child} from "firebase/database";
+import {CartItem} from '../../redux/constants';
 
 interface Rate{
     id: number,
@@ -46,17 +48,19 @@ const rate : Rate[]= [
 ];
 
 const DetailFood: React.FC = () => {
-
+    
     const {id} = useParams();
     
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
 
     const increase = () => {
         setCount(count + 1);
     }
 
     const decrease = () => {
-        setCount(count - 1);
+        if(count !== 1){
+            setCount(count - 1);
+        }
     }
 
     const [active, setActive] = useState(rate[0].id);
@@ -64,14 +68,80 @@ const DetailFood: React.FC = () => {
     const user =  JSON.parse(local);
     console.log(user);
     
+    // get 1 food product
     const dispatch = useDispatch<any>();
     const data = useSelector((state: any) => state.aFood);
-    
     const foodData = useSelector((state: any) => state.aFood.data);
+    
     useEffect(() => {
         dispatch(getAFood(id || ""))
     },[])
+    // 
+
+    const [comment, setComment] = useState<any[]>([]);
+    const dbRealtime = getDatabase();
+    const dbRef = ref(getDatabase());
+   
+    useEffect(() => {
+        // onValue(ref(dbRealtime), (snapshot) => {
+        //     setComment([]);
+        //     const data = snapshot.val();
+        //     console.log('data', data);
+            
+        //     if (data !== null) {
+        //       Object.values(data).map((todo) => {
+        //         setComment((oldArray): any => [...oldArray, todo]);
+        //       });
+        //     }
+        //   });
+        
+        get(child(dbRef, `rating/${id}`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                if (data !== null) {
+                    // Object.values(data).map((todo) => {
+                    // setComment((oldArray): any => [...oldArray, todo]);
+                    // });
+                    setComment(data)
+                }
+            } else {
+              console.log("No data available");
+            }
+          }).catch((error) => {
+            console.error(error);
+          });
+    },[])
     
+    console.log('cmt', comment);
+  
+    const arrComment = comment && Object.values(comment);
+
+    console.log('srrr', arrComment);
+    
+    // localStorage.setItem('cart', "[]");
+
+    const handleAddFood = async(food: CartItem) => {
+        let ca = await localStorage.getItem('cart');
+        let cart = ca ? JSON.parse(ca ? ca : "") : "";
+
+        const cartList= {
+            name: food?.name,
+            type: food?.type,
+            price: food?.price,
+            des: food?.des,
+            image: food?.image,
+            count: count,
+            payment: count*food.price,
+            id: id
+        }
+
+        if (cart.findIndex((item: any)=>item.id === id) === -1) {
+            cart.push(cartList)
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+    }
+
     return (
         <>
                     <div className='detail flex'>
@@ -101,16 +171,21 @@ const DetailFood: React.FC = () => {
                                     )
                                 }
                             </div>
-                            <div>
-                                <span> Số lượng món: </span>
-                                <button onClick={decrease}>-</button>
-                                <span>{count}</span>
-                                <button onClick={increase}>+</button>
-                            </div>
-                            <div>
-                                <Button variant="contained" color='success'>Thêm vào giỏ hàng</Button>
-                                <Button variant="outlined" color='error'>Mua ngay</Button>
-                            </div>
+                            {   !data.loading && (
+                                <>
+                                <div>
+                                    <span> Số lượng món: </span>
+                                    <button onClick={decrease}>-</button>
+                                    <span>{count}</span>
+                                    <button onClick={increase}>+</button>
+                                </div>
+                                <div>
+                                    <Button variant="contained" color='success' onClick={() => handleAddFood(foodData)}>Thêm vào giỏ hàng</Button>
+                                    <Button variant="outlined" color='error'>Mua ngay</Button>
+                                </div>
+                                </>
+                                )
+                            }
                             
                         </div>
                     </div>
@@ -138,8 +213,14 @@ const DetailFood: React.FC = () => {
                                 ))}
                             </div>
                         </div>
-                        <RatingComment />
-                        <RateComment />
+                      
+                        { arrComment && id ? (arrComment.map((item: any) => (
+                            <RatingComment item={item} />
+                        ))): (<span> none</span>)  
+                        }
+                        {
+                            user && (<RateComment foodID={id} userID={user.uid} />)
+                        }
                     </div>
 
         </>

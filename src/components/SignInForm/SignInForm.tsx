@@ -15,6 +15,11 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
+import { useNavigate } from 'react-router-dom';
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { FormValues } from '../../redux/constants';
 
 function Copyright(props: any) {
   return (
@@ -31,28 +36,94 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
+// Validate
+const schemaSignUp = yup.object().shape({
+  email: yup.string().required("Please fill out this field!")
+            .matches(
+              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              "Please enter the correct format!"
+            ),
+  password: yup
+    .string()
+    .required("Please fill out this field!")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      "Mật khẩu phải có 8 ký tự trở lên, 1 số, 1 chữ in hoa, 1 ký tự đặc biệt!"
+    ),
+});
+// 
 export default function SignInForm() {
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    try {
+  
+  const [show, setShow] = React.useState<string>("password");
+  let navigate = useNavigate();
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(schemaSignUp),
+  });
+
+  const onSubmit = async(data: FormValues) => {
+    localStorage.clear();
+    localStorage.setItem('cart', '[]');
+       try {
       const user = await signInWithEmailAndPassword(
         auth,
-        `${data.get('email')}`,
-        `${data.get('password')}`
+        `${data.email}`,
+        `${data.password}`
       );
       console.log('user',user.user);
       // localStorage.setItem('user', JSON.stringify(user))
-      // if(user?.user?.email === "trung@gmail.com"){
+      if(user?.user?.email === "trung@gmail.com"){
+        localStorage.setItem('admin', JSON.stringify(user.user));
+        localStorage.setItem('user', JSON.stringify(user.user));
         
-      // }
-      console.log(auth.currentUser);
-      
+        navigate("/admin/food")
+      }else{
+        localStorage.setItem('user', JSON.stringify(user.user));
+        navigate('/')
+      }
     } catch (error) {
       console.log(error);
       
     }
-  };
+  }
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   localStorage.clear();
+
+  //   const data = new FormData(event.currentTarget);
+  //   try {
+  //     const user = await signInWithEmailAndPassword(
+  //       auth,
+  //       `${data.get('email')}`,
+  //       `${data.get('password')}`
+  //     );
+  //     console.log('user',user.user);
+  //     // localStorage.setItem('user', JSON.stringify(user))
+  //     if(user?.user?.email === "trung@gmail.com"){
+  //       localStorage.setItem('admin', JSON.stringify(user.user));
+  //       localStorage.setItem('user', JSON.stringify(user.user));
+  //       navigate("/admin/food")
+  //     }else{
+  //       localStorage.setItem('user', JSON.stringify(user.user));
+  //       navigate('/')
+  //     }
+      
+  //   } catch (error) {
+  //     console.log(error);
+      
+  //   }
+  // };
+  const onShow = () => {
+    if(show == "password"){
+      setShow("text");
+    }else{
+      setShow("password")
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -70,9 +141,9 @@ export default function SignInForm() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign In
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               
               <Grid item xs={12}>
@@ -81,8 +152,10 @@ export default function SignInForm() {
                   fullWidth
                   id="email"
                   label="Email Address"
-                  name="email"
                   autoComplete="email"
+                  {...register("email")}
+                  error={!!errors?.email}
+                  helperText={errors?.email?.message}
                 />
               </Grid>
 
@@ -90,14 +163,21 @@ export default function SignInForm() {
                 <TextField
                   required
                   fullWidth
-                  name="password"
                   label="Password"
-                  type="password"
+                  type={show}
                   id="password"
                   autoComplete="new-password"
+                  {...register("password")}
+                  error={!!errors?.password}
+                  helperText={errors?.password?.message}
                 />
               </Grid>
-              
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox value="allowExtraEmails" color="primary" onClick={onShow} />}
+                  label="Show password"
+                />
+              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -109,7 +189,7 @@ export default function SignInForm() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

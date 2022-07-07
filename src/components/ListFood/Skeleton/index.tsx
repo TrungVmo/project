@@ -1,6 +1,5 @@
 import { Skeleton, Box } from '@mui/material';
 import React from 'react';
-import { ItemFood } from '../../../redux/constants';
 
 
 const SkeletonItem: React.FC = () => {

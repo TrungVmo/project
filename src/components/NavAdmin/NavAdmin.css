@@ -1,12 +1,17 @@
 .admin{
     display: flex;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+    background: cadetblue;
+    height: 80px;
 }
 .admin-nav{
-    width: 100%;
+    width: 80%;
     padding: 20px 0;
 }
 .admin-nav div{
-    border-right: 1px solid grey;
+    /* border-right: 1px solid grey; */
     padding: 0 2%;
      box-sizing: border-box;
      align-items: center;
@@ -14,12 +19,38 @@
 .admin-nav img{
     width: 80%;
 }
+.admin-nav a{
+    color: black;
+    padding-left: 10px;
+}
 .admin-main{
     width: 70%;
+    margin-bottom: 20px;
 }
 
+.admin-navR{
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-navR svg{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: antiquewhite;
+    color: brown;
+}
 /*  */
 
 .box-active{
-    background: gray;
+    background: antiquewhite;
+    border-radius: 10px ;
+    color:brown;
+    font-weight: 700;
+}
+
+.box-active a{
+    color: brown;
 }

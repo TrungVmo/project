@@ -10,8 +10,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateFood } from '../../../redux/actions/Food';
+import { getCategorys } from '../../../redux/actions/Category';
 
 const UpdateFood: React.FC<{item: any}> = ({item}) => {
 
@@ -54,7 +55,6 @@ const UpdateFood: React.FC<{item: any}> = ({item}) => {
 
     const dispatch = useDispatch<any>();
     const handleUpdate = async() => {
-    
         const itemFood = {
             foodImg: foodImg,
             foodImgName: foodImg.name,
@@ -64,8 +64,12 @@ const UpdateFood: React.FC<{item: any}> = ({item}) => {
             type: typeFood,
         }
         dispatch(updateFood(itemFood, item.id))
-   
     }
+    
+    const typeList = useSelector((state: any) => state.cateList.data);
+    useEffect(() => {
+        dispatch(getCategorys());
+    },[])
 
     return (
         <>
@@ -103,8 +107,8 @@ const UpdateFood: React.FC<{item: any}> = ({item}) => {
                         variant="standard"
                         onChange={(e: any) => setPriceFood(e.target.value)}
                     />
-                    <FormControl>
-                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <FormControl style={{width: 100}}>
+                        <InputLabel id="demo-simple-select-label">Type</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -112,9 +116,11 @@ const UpdateFood: React.FC<{item: any}> = ({item}) => {
                             value={typeFood}
                             onChange={(e: any) => setTypeFood(e.target.value)}
                             >
-                            <MenuItem value='Food'>Food</MenuItem>
-                            <MenuItem value='Drink'>Drink</MenuItem>
-                            <MenuItem value='Coffee'>Coffee</MenuItem>
+                            {
+                                typeList && typeList.map((item: any) => (
+                                    <MenuItem value={item.type} key={item.id}>{item.type}</MenuItem>
+                                ))
+                            }
                         </Select>
                     </FormControl>
                     <TextField id="outlined-basic" type='file' onChange={handleChooseImg} />

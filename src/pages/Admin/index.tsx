@@ -1,14 +1,15 @@
 import React from 'react';
-import FoodManage from '../../components/NavAdmin/FoodManage/FoodManage';
+import './Admin.css';
 import NavAdmin from '../../components/NavAdmin/NavAdmin';
-import UserManage from '../../components/NavAdmin/UserManage/UserMange';
 
-const Admin: React.FC = () => {
+
+const Admin: React.FC<{Elem: any}> = ({Elem}) => {
     return (
         <div>
             <NavAdmin />
-            <FoodManage />
-            <UserManage />
+            <div className='admin__element'>
+                <Elem />
+            </div>
         </div>
     );
 };

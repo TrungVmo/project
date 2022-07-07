@@ -1,5 +1,8 @@
-
-.menu-top{
+.menu{
+    padding-top: 50px;
+}
+.menu__top{
+    
     width: 100%;
     background-image: url('https://preview.colorlib.com/theme/dingo/img/breadcrumb.png.webp');
     height: 200px;
@@ -15,7 +18,7 @@
     font-size: 50px;
     font-family: unset;
 }
-.menu-top::after{
+.menu__top::after{
     background-color: #000;
     position: absolute;
     left: 0;
@@ -27,11 +30,16 @@
     z-index: -1;
 }
 
-.menu-content div{
+.menu__content{
+    padding: 2% 5%;
+    box-sizing: border-box;
+}
+
+.menu__content div{
     justify-content: space-between;
 
 }
-.menu-content ul li{
+.menu__content ul li{
     list-style: none;
     padding-right: 30px;
     box-sizing: border-box;
@@ -39,7 +47,7 @@
     flex-direction: column;
     align-items: center;
 }
-.menu-content ul li svg{
+.menu__content ul li svg{
     color: #ff6426;
 }
 .span{
@@ -60,6 +68,9 @@
     background-color: #ff6426;
 }
 
-a{
-    width: 23%;
+.menu__content-list{
+    display: grid;
+    grid-template-columns: 23% 23% 23% 23%;
+    grid-column-gap: 2%;
+    grid-row-gap: 30px;
 }
