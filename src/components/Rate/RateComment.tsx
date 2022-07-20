@@ -24,16 +24,10 @@ const RateComment:React.FC<RateFood> = ({foodID, userID}) => {
     const handleComment = (e: any) => {
        setComment(e.target.value)
     }
-
-    console.log(foodID);
-    const [todos, setTodos] = useState([]);
-
-    console.log('todos',todos);
     
-    const writeRating = () => {
-        
+    const writeRating = (e: any) => {
+        e.preventDefault()
         let dateNow = new Date().toLocaleString() + "";
-        console.log(dateNow);
         
         set(ref(dbRealtime, 'rating/' + `${foodID}/` + userID ), {
             id: userID,
@@ -45,19 +39,20 @@ const RateComment:React.FC<RateFood> = ({foodID, userID}) => {
     }
 
     return (
-        <div>
+        <form onSubmit={writeRating}>
             <TextField
             id="standard-textarea"
-            label="Đánh giá của bạn"
-            placeholder="Đánh giá"
+            label="Your Comment "
+            placeholder="Comment"
             multiline
+            required
             variant="standard"
             fullWidth
             onChange={handleComment}
             />
             <Rating name="simple-controlled" onChange={handleRate} />
-            <Button variant="contained" onClick={writeRating}>Đánh giá</Button>
-        </div>
+            <Button variant="contained" type='submit'>Rate</Button>
+        </form>
     );
 };
 
