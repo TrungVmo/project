@@ -29,13 +29,12 @@ const UserManage: React.FC = () => {
                 <Table aria-label="simple table">
                     <TableHead>
                     <TableRow>
-                        <TableCell>Họ</TableCell>
-                        <TableCell align="center">Tên</TableCell>
-                        <TableCell align="center">Ảnh đại diện</TableCell>
+                        <TableCell>First Name</TableCell>
+                        <TableCell align="center">Last Name</TableCell>
                         <TableCell align="center">Email</TableCell>
-                        <TableCell align="center">Địa chỉ</TableCell>
-                        <TableCell align="center">Số điện thoại</TableCell>
-                        <TableCell align="center">Chức năng</TableCell>
+                        <TableCell align="center">Address</TableCell>
+                        <TableCell align="center">Phone Number</TableCell>
+                        <TableCell align="center">Function</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
@@ -48,9 +47,6 @@ const UserManage: React.FC = () => {
                                 {item.firstName}
                             </TableCell>
                             <TableCell align="center">{item.lastName}</TableCell>
-                            <TableCell align="center">
-                                <img src='' alt='nothing' className='imgFoodManage' />
-                            </TableCell>
                             <TableCell align="center">{item.email}</TableCell>
                             <TableCell align="center">{item.address}</TableCell>
                             <TableCell align="center">{item.phone}</TableCell>

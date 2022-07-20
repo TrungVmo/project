@@ -19,9 +19,13 @@ import FoodManage from './components/NavAdmin/FoodManage/FoodManage';
 import UserManage from './components/NavAdmin/UserManage/UserMange';
 import Category from './components/NavAdmin/Category/Category';
 import Carts from './pages/Cart';
-import Filter from './pages/Filter';
 import Order from './components/NavAdmin/Order/Order';
 import Profile from './pages/Profile/Profile';
+import SignInAdmin from './components/SignInForm/SignInAdmin';
+import SignRouter from './routes/SignRouter/SignRouter';
+import SignAdRouter from './routes/SignRouter/SignAdRouter';
+import FilterType from './pages/Filter/FilterType';
+import SearchFilter from './pages/Search';
 
 
 const Element: React.FC<{Elem: any}>= ({Elem}) => {
@@ -35,18 +39,19 @@ const Element: React.FC<{Elem: any}>= ({Elem}) => {
 }
 
 function App() {
+
+  const us = localStorage.getItem('user');
+  const user = us ? JSON.parse(us ? us : "") : null;
+
+  const ad = localStorage.getItem('admin');
+  const admin = ad ? JSON.parse(ad ? ad : "") : null;
+
   return (
     <BrowserRouter>
         <Routes>
           <Route path='/' element={<Element Elem={Home} />}>
           </Route>
           <Route path='/menu' element={<Element Elem={Menu} />} />
-          {/* <Route path='/menu' element={
-            <PrivateRoute>
-              <Element Elem={Menu} />
-            </PrivateRoute>
-          }>    
-          </Route> */}
           <Route path='/admin/food' element={
             <AdminRouter>
               <Admin Elem={FoodManage} />
@@ -84,10 +89,20 @@ function App() {
           }>    
           </Route>
 
-          <Route path='/signin' element={<SignIn />} />
+          <Route path= '/signin' element={
+            <SignRouter>
+              <SignIn />
+            </SignRouter>
+          }/>
           <Route path='/signup' element={<SignUp />} />
+          <Route path= '/admin' element={
+            <SignAdRouter>
+              <SignInAdmin />
+            </SignAdRouter>
+          }/>
           <Route path='/detail/:id' element={<Element Elem={DetailFood} />} />
-          <Route path='/menu/:type' element={<Element Elem={Filter} />} />
+          <Route path='/menu/:type' element={<Element Elem={FilterType} />} />
+          <Route path='/search' element={<Element Elem={SearchFilter} />}></Route>
         </Routes>
     </BrowserRouter>
   );

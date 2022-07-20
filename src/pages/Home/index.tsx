@@ -9,7 +9,6 @@ const Home: React.FC = () => {
             
             <HomeItem />
             
-
         </div>
     );
 };

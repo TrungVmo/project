@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import BuildIcon from '@mui/icons-material/Build';
+import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -40,7 +40,7 @@ const UpdateCate: React.FC<{item: any}> = ({item}) => {
 
     return (
         <>
-            <BuildIcon onClick={handleClickOpen} />
+            <EditIcon onClick={handleClickOpen} />
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Subscribe</DialogTitle>
                     <DialogContent>

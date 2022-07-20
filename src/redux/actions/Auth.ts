@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc, where, query } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 export const actionsUser = Object.freeze({
@@ -20,7 +20,8 @@ export const actionsUser = Object.freeze({
 const listUsers = () => async (dispatch: any) => {
     let userData = [];
     const getUsers = async () => {
-        const data = await getDocs(collection(db, 'users'));
+        const q = query(collection(db, 'users'), where("role", "==", "user"));
+        const data = await getDocs(q);
         const userList = data.docs.map((doc:any) => ({ ...doc.data(), id: doc.id }));
         return userList
     }

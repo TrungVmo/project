@@ -4,7 +4,7 @@ import {getAFoodReducer, getFilterReducer, listFoodsReducer}  from './reducers/F
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { getAUserReducer, listUsersReducer } from './reducers/User'
 import { getCatesReducer } from './reducers/Category'
-import { addCartReducer, getOrdersReducer } from './reducers/Cart'
+import { addCartReducer, getCartItemsReducer, getFilterOrdersReducer, getOrderListsReducer, getOrdersReducer } from './reducers/Cart'
 
 const reducer = combineReducers({
   foodList: listFoodsReducer,
@@ -13,7 +13,13 @@ const reducer = combineReducers({
   cateList: getCatesReducer,
   aUser: getAUserReducer,
   filterList: getFilterReducer,
-  orderList : getOrdersReducer,
+  cartList : getCartItemsReducer,
+  aOrder: getOrdersReducer,
+  orderList : getOrderListsReducer,
+  filterOrder: getFilterOrdersReducer,
+
+  
+  // testAdd: addFoodsReducer
 })
 
 const initialState = {}

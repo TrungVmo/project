@@ -1,0 +1,21 @@
+.text__line{
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.text__line span{
+    width: 30%;
+    display: flex;
+    align-items: center;
+}
+
+form img{
+    width: 20%;
+    height: 20%;
+}
+
+@media only screen and (max-width: 576px) {
+    .text__line div{
+        width: 70% !important;
+    }
+}

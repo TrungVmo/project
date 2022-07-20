@@ -18,20 +18,16 @@ const Category: React.FC = () => {
     const [type, setType] = useState<string>("");
 
     const dispatch = useDispatch<any>();
-
+    //  get All category
     const cateData = useSelector((state: any) => state.cateList.data);
+
     useEffect(() => {
         dispatch(getCategorys());
     },[])
-
-    console.log('cateData', cateData);
     
-    const testCate = useSelector((state: any) => state.cateList)
     const handleAddType = async() => {
         const typeFood: string = type;
         await dispatch(addCate(typeFood))
-        console.log('testCate',testCate);
-        
     }
     return (
         <>
@@ -55,13 +51,12 @@ const Category: React.FC = () => {
             </div>
             <div>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-
                 <TableContainer sx={{ maxHeight: 300}}>
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">Tên loại</TableCell>
-                                <TableCell align="center">Chức năng</TableCell>
+                                <TableCell align="center">Type Name</TableCell>
+                                <TableCell align="center">Function</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -70,9 +65,7 @@ const Category: React.FC = () => {
                             key={index}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                
                                 <TableCell align="center">{item.type}</TableCell>
-                                
                                 <TableCell align="center">
                                     <DeleteCate item={item} />
                                     <UpdateCate item={item} />

@@ -1,5 +1,5 @@
 .home__intro{
-    background-image: url('../../assets/white-concrete-wall.jpg');
+    background-image: url('../../assets/banner-bg.jpg');
     width: 100%;
     height: 500px;
     background-size: cover;
@@ -49,4 +49,103 @@
     0%   { top:0px;}
     50% {top:15px}
   100% {top: 0px}
+}
+
+/* home category */
+
+.home__category-text{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5%;
+    box-sizing: border-box;
+}
+
+.home__category{
+    padding: 5% 10%;
+    box-sizing: border-box;
+}
+
+.home__category-shape{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.home__category-shape .shape{
+    position: relative;
+}
+
+.home__category .shape__img::before{
+    z-index: -2;
+    top: -10px;
+    left: -5px;
+    content: "";
+    width: 190px;
+    height: 190px;
+    position: absolute;
+    border-radius: 100%;
+    border: 3px dashed grey;
+    -webkit-animation-duration: 1500ms;
+    animation-duration: 1500ms;
+    -webkit-animation: rotate-anim 10s infinite linear;
+    animation: rotate-anim 10s infinite linear;
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+    -webkit-transition: 500ms all ease;
+    transition: 500ms all ease;
+}
+
+.shape:hover .shape__img::before{
+    animation-play-state: running !important;
+    border: 3px dashed #76a713;
+    z-index: -2;
+    top: -10px;
+    left: -5px;
+    content: "";
+    width: 190px;
+    height: 190px;
+    position: absolute;
+    border-radius: 100%;
+    transition: 500ms all ease;
+}
+
+.shape__img{
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.shape__img img{
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes rotate-anim {
+    0% {
+      -webkit-transform: rotate(0deg);
+              transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+
+/*  */
+
+.home__space{
+    background-image: url('../../assets/ad-ban-bg.png');
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+}
+
+/*  */
+
+@media only screen and (max-width: 1024px) {
+    
+    .home__intro-right img{
+        height: unset;
+    }
 }

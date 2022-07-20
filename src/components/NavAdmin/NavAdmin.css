@@ -54,3 +54,13 @@
 .box-active a{
     color: brown;
 }
+
+@media only screen and (max-width: 576px) {
+    .admin{
+        display: none;
+    }
+
+    .admin-main{
+        width: 100%;
+    }
+}

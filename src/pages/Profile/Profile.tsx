@@ -12,8 +12,16 @@ import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import DialogTitle from '@mui/material/DialogTitle';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
 import UpdateProfile from '../../components/Profile/UpdateProfile';
+import { getFilterOrder } from '../../redux/actions/Cart';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -32,12 +40,15 @@ const Profile:React.FC = () => {
     const [border, setBorder] = useState<boolean>(true);
     const dispatch = useDispatch<any>();
     const userData = useSelector((state: any) => state.aUser.data);
+    const orderData = useSelector((state: any) => state.filterOrder.data);
     
     console.log('id', user.uid);
     useEffect(() => {
         dispatch(getAUser(user.uid))
+        dispatch(getFilterOrder(user.uid)) // filter id Carts of user current
     },[])
-    console.log(userData);
+
+    console.log("orderData", orderData);
     
     const navigate = useNavigate();
     const [open, setOpen] = useState<boolean>(false);
@@ -92,8 +103,13 @@ const Profile:React.FC = () => {
             </div>
            {
             border ? (
-                <div className='profile__order'>
-                    <ProfileOrder idUser={user.uid} />
+                <div className='profile__order'> 
+                
+                    {
+                        orderData && orderData.map((item: any) => (
+                            <ProfileOrder item={item} />
+                        ))
+                    }      
                 </div>
             ): (
                 <div className='profile__portfolio'>

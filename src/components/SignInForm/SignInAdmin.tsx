@@ -74,25 +74,26 @@ export default function SignInAdmin() {
     localStorage.clear();
 
     localStorage.setItem('cart', '[]');
-    if(data.email !== "trung@gmail.com"){
+    if(data.email == "trung@gmail.com"){
         try {
             const user = await signInWithEmailAndPassword(
               auth,
               `${data.email}`,
               `${data.password}`
             );
+            localStorage.setItem('admin', JSON.stringify(user.user));
             localStorage.setItem('user', JSON.stringify(user.user));
-            navigate('/')
+            
+            navigate("/admin/food")
         }catch (error) {
         console.log(error); 
-        setOpen(true)
         }
     }else{
         setOpen(true);
     }
     }
   const onShow = () => {
-    if(show === "password"){
+    if(show == "password"){
       setShow("text");
     }else{
       setShow("password")
@@ -105,6 +106,9 @@ export default function SignInAdmin() {
 
   const action = (
     <React.Fragment>
+      {/* <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button> */}
       <IconButton
         size="small"
         aria-label="close"
@@ -133,7 +137,7 @@ export default function SignInAdmin() {
                 <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Sign In
+                Sign In With Admin
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
@@ -181,15 +185,8 @@ export default function SignInAdmin() {
                 </Button>
                 <Grid container justifyContent="flex-end">
                 <Grid item>
-                    <Link href="/signup" variant="body2">
-                    Already have an account? Sign in
-                    </Link>
-                </Grid>
-                </Grid>
-                <Grid container justifyContent="flex-end">
-                <Grid item>
-                    <Link href="/admin" variant="body2">
-                    Sign in with Admin?
+                    <Link href="/signin" variant="body2">
+                    Sign in with user?
                     </Link>
                 </Grid>
                 </Grid>
@@ -209,4 +206,3 @@ export default function SignInAdmin() {
     
   );
 }
-

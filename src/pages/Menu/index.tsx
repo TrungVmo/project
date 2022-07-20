@@ -92,11 +92,17 @@ const Menu: React.FC = () => {
     // ------------------------------------------
     const [typeCate, setTypeCate] = React.useState('');
    
-    const handleChange = (event: SelectChangeEvent) => {
+    const handleChangeType = (event: SelectChangeEvent) => {
         setTypeCate(event.target.value);
         
     };
     // 
+
+    const [cost, setCost] = React.useState('');
+
+    const handleChangeCost = (event: SelectChangeEvent) => {
+        setCost(event.target.value as string);
+    };
 
     // const [list, setList] = useState([]);
     // const [page, setPage] = useState(1);
@@ -156,7 +162,7 @@ const Menu: React.FC = () => {
                             id="demo-simple-select"
                             value={typeCate}
                             label="User"
-                            onChange={handleChange}
+                            onChange={handleChangeType}
                         >
                             {cateData && cateData.map((item: any) => (
                                 <Link to={`/menu/${item.type}`}>
@@ -165,6 +171,27 @@ const Menu: React.FC = () => {
                                     </MenuItem>
                                 </Link>
                             ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl style={{width: 200}}>
+                        <InputLabel id="demo-simple-select-label">Filter with </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={cost}
+                            label="User"
+                            onChange={handleChangeCost}
+                        >
+                            <Link to="/search?keyword=price&max=50">
+                                <MenuItem value={0}>Less than 50$</MenuItem>
+                            </Link>
+                            <Link to="/search?keyword=price&min=50&max=100">
+                                <MenuItem value={1}>From 50$ - 100$</MenuItem>
+                            </Link>
+                            <Link to="/search?keyword=price&min=100">
+                                <MenuItem value={2}>Over 100$</MenuItem>
+                            </Link>
+                            
                         </Select>
                     </FormControl>
                     

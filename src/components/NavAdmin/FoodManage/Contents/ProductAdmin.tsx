@@ -8,8 +8,11 @@ import FormControl from '@mui/material/FormControl';
 import {SelectChangeEvent} from '@mui/material';
 import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { addFood } from '../../../redux/actions/Food';
-import { getCategorys } from '../../../redux/actions/Category';
+import { addFood } from '../../../../redux/actions/Food';
+import { getCategorys } from '../../../../redux/actions/Category';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 
 const ProductAdmin: React.FC = () => {
 
@@ -21,6 +24,15 @@ const ProductAdmin: React.FC = () => {
 
     const [preview, setPreview] = useState();
     const dispatch = useDispatch<any>();
+
+    const handleSetPrice = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const cost = parseInt(e.target.value);
+        if(cost < 0){
+            setPriceFood(0)
+        }else{
+            setPriceFood(cost)
+        }
+    }
 
     useEffect(() => {
         if(!foodImg){
@@ -52,8 +64,11 @@ const ProductAdmin: React.FC = () => {
 
     console.log(typeList);
     
-    const test = useSelector((state: any) => state.foodList)
+    const test = useSelector((state: any) => state.foodList);
+    // const getDa = useSelector((state: any) => state.testAdd.data)
+
     const addFoods = async(e: any) => {
+
         e.preventDefault();
         const itemFood = {
             foodImg: foodImg,
@@ -63,20 +78,21 @@ const ProductAdmin: React.FC = () => {
             price: priceFood,
             type: typeFood,
         }
-        console.log(itemFood);
-        
-        await dispatch(addFood(itemFood));
-        console.log(test.loading);
 
-        if(!test.loading){
-            alert('success');
-        }
+        const data = await dispatch(addFood(itemFood));
+        
+        setNameFood("");
+        setTypeFood("");
+        setDesFood("");
+        setPriceFood(0);
+        setPreview(undefined);
+        setFoodImg(null)
     }
-    
+
     return (
         <>
             <form onSubmit={addFoods}>
-                <div className='text-line'>
+                <div className='text__line'>
                     <span>Name</span>
                     <TextField 
                         id="outlined-basic" 
@@ -85,9 +101,10 @@ const ProductAdmin: React.FC = () => {
                         variant="outlined" 
                         style={{width: '50%'}}
                         required
+                        value={nameFood}
                         onChange={(e: any) => setNameFood(e.target.value)} />
                 </div>
-                <div className='text-line'>
+                <div className='text__line'>
                     <span>Description</span>
                     <TextField 
                         id="outlined-basic" 
@@ -98,7 +115,7 @@ const ProductAdmin: React.FC = () => {
                         required
                         onChange={(e: any) => setDesFood(e.target.value)} />
                 </div>
-                <div className='text-line'>
+                <div className='text__line'>
                     <span>Cost</span>
                     <TextField 
                         id="outlined-basic" 
@@ -108,9 +125,9 @@ const ProductAdmin: React.FC = () => {
                         style={{width: '50%'}}
                         type='number' 
                         required
-                        onChange={(e: any) => setPriceFood(e.target.value)} />
+                        onChange={(e: any) => handleSetPrice(e)} />
                 </div>
-                <div className='text-line'>
+                <div className='text__line'>
                     <span>Type</span>
                     <FormControl style={{width: '50%'}}>
                         <InputLabel id="demo-simple-select-label">Type</InputLabel>
@@ -133,7 +150,7 @@ const ProductAdmin: React.FC = () => {
                     
                 </div>
                 
-                <div className='text-line'>
+                <div className='text__line'>
                     <span>Image</span>
                     <TextField id="outlined-basic" type='file' style={{width: '50%'}} onChange={handleChooseImg} required />
                 </div>
@@ -142,14 +159,25 @@ const ProductAdmin: React.FC = () => {
                         <img src={preview} />
                     )
                 }
-                <div className='text-endLine'>
-                    <Button 
-                        variant="contained" 
-                        type='submit'
-                        >Add Food
-                    </Button>
+                <div className='text__endLine'>
+                    {test.addFoodprog >= 0 && test.addFoodprog<100 ? 
+                        (<Box sx={{ display: 'flex' }}>
+                            <CircularProgress />
+                        </Box>) : 
+                        (
+                            <Button 
+                                variant="contained" 
+                                type='submit'
+                                >Add Food
+                            </Button>
+                        )
+                    }
                 </div>
             </form>
+            {
+                test.addFoodprog == 100 && 
+                <Alert severity="success">This is a success alert — check it out!</Alert>
+            }
         </>
     );
 };

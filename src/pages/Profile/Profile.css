@@ -1,5 +1,5 @@
 .profile{
-    padding: 60px 0;
+    padding: 80px 0;
 }
 
 .profile__top{
@@ -49,5 +49,6 @@
 /*  */
 
 .profile__order{
-    padding: 0 5%;
+    padding: 2% 5%;
+
 }

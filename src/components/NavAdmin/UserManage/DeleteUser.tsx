@@ -21,7 +21,7 @@ const DeleteUser: React.FC<{item: any}> = ({item}) => {
 
     return (
         <div onClick={onDeleteUser}>
-            xóa
+            delete
         </div>
     );
 };

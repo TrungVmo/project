@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../../redux/actions/Cart';
 import { auth } from '../../firebase';
 import { getAuth } from 'firebase/auth';
+import gif from '../../assets/cart.gif';
 
 const Carts: React.FC = () => {
 
@@ -47,9 +48,10 @@ const Carts: React.FC = () => {
                             <Button variant="contained" onClick={handleOrder}>Order</Button>
                         </div>
                     </>
-                ) : (<>
-                    Nothing
-                </>)
+                ) : (<div style={{width: "100%"}}>
+                        <img src={gif} alt="Computer man" style={{width: "100%"}} ></img>
+                    </div>
+                    )
             }
         </div>
     );

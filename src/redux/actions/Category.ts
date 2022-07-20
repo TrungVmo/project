@@ -55,7 +55,7 @@ const addCate = (typeFood: string) => async (dispatch: any) => {
             type: typeFood
         })
 
-        dispatch({type: actionsCategory.ADD_CATEGORY_SUCCESS, payload: newType})
+        dispatch({type: actionsCategory.ADD_CATEGORY_SUCCESS, payload: typeFood})
      }
      catch (error) {
         dispatch({type: actionsCategory.ADD_CATEGORY_FAIL, payload: error })

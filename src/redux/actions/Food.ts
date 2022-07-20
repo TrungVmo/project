@@ -26,6 +26,9 @@ export const actionsFood = Object.freeze({
     REMOVE_FOOD: 'REMOVE_FOOD',
     REMOVE_FOOD_SUCCESS: 'REMOVE_FOOD_SUCCESS',
     REMOVE_FOOD_FAIL: 'REMOVE_FOOD_FAIL',
+
+    ADD_FOOD_LOADING_PROCESS:'ADD_FOOD_LOADING_PROCESS',
+    UPDATE_FOOD_LOADING_PROCESS: 'UPDATE_FOOD_LOADING_PROCESS',
 })
 
 // 
@@ -86,32 +89,34 @@ interface Food{
 }
 const addFood = (itemFood: Food) => async (dispatch: any) => {
 
-    const newFood = {}
+    let newFood;
     try {
         dispatch({ type: actionsFood.ADD_FOOD})
 
         const storageRef = ref(storage, `files/${itemFood.foodImgName}`)
-       const uploadTask = uploadBytesResumable(storageRef, itemFood.foodImg)
+            const uploadTask = uploadBytesResumable(storageRef, itemFood.foodImg)
         uploadTask.on("state_changed", (snapshot) => {
             const prog = Math.round(
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100
               );
+              dispatch({ type: actionsFood.ADD_FOOD_LOADING_PROCESS, payload:{prog}})
         }, (err) => console.log(err), () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                console.log(url);
-                
-                addDoc(collection(db, "Food-product"), {
+            getDownloadURL(uploadTask.snapshot.ref).then(async(url) => {
+
+              newFood = await addDoc(collection(db, "Food-product"), {
                     name: itemFood.name,
                     des: itemFood.des,
                     price: itemFood.price,
                     type: itemFood.type,
                     image: url
                 })
+
+            dispatch({type: actionsFood.ADD_FOOD_SUCCESS, payload:{itemFood:{...itemFood, image:url}}})
             })
         }
         )
 
-        dispatch({type: actionsFood.ADD_FOOD_SUCCESS, payload: newFood})
+        // dispatch({type: actionsFood.ADD_FOOD_SUCCESS, payload: newFood})
     } catch (error) {
         dispatch({type: actionsFood.ADD_FOOD_FAIL, payload: error })
     }
@@ -126,12 +131,14 @@ const updateFood = (itemFood: Food, idFood: string) => async (dispatch: any) => 
 
         const foodDoc = doc(db,"Food-product",idFood)
         const storageRef = ref(storage, `files/${itemFood.foodImgName}`)
-       const uploadTask = uploadBytesResumable(storageRef, itemFood.foodImg)
+        const uploadTask = uploadBytesResumable(storageRef, itemFood.foodImg)
         uploadTask.on("state_changed", (snapshot) => {
             const prog = Math.round(
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100
               );
-        }, (err) => console.log(err), () => {
+              dispatch({ type: actionsFood.UPDATE_FOOD_LOADING_PROCESS, payload:{prog}});
+              
+             }, (err) => console.log(err), () => {
             getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
                 console.log(url);
                 
@@ -142,11 +149,13 @@ const updateFood = (itemFood: Food, idFood: string) => async (dispatch: any) => 
                     type: itemFood.type,
                     image: url
                 })
+
+                dispatch({type: actionsFood.UPDATE_FOOD_SUCCESS, payload:{itemFood:{...itemFood, image:url}, idFood}}) 
             })
         }
+        
         )
-
-        dispatch({type: actionsFood.UPDATE_FOOD_SUCCESS})
+        // dispatch({type: actionsFood.UPDATE_FOOD_SUCCESS})
     } catch (error) {
         dispatch({type: actionsFood.UPDATE_FOOD_FAIL, payload: error })
     }
@@ -159,7 +168,7 @@ const removeFood = (idFood: string) => async (dispatch: any) => {
         dispatch({ type: actionsFood.REMOVE_FOOD})
         await deleteDoc(doc(db, "Food-product", idFood))
 
-        dispatch({type: actionsFood.REMOVE_FOOD_SUCCESS})
+        dispatch({type: actionsFood.REMOVE_FOOD_SUCCESS, payload: idFood})
     } catch (error) {
         dispatch({type: actionsFood.REMOVE_FOOD_FAIL, payload: error })
     }

@@ -55,7 +55,7 @@ const schemaSignUp = yup.object().shape({
     .required("Please fill out this field!")
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      "Mật khẩu phải có 8 ký tự trở lên, 1 số, 1 chữ in hoa, 1 ký tự đặc biệt!"
+      "Password must have 8 characters or more, 1 number, 1 uppercase letter, 1 special character!"
     ),
   address: yup.string().required("Please fill out this field!"),
 });
@@ -87,7 +87,8 @@ export default function SignForm() {
             lastName: data.lastName,
             email: data.email,
             phone: data.phone,
-            address: data.address
+            address: data.address,
+            role: 'user'
         })
       }
       console.log("successfull");

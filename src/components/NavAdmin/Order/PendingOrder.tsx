@@ -20,9 +20,11 @@ const Transition = React.forwardRef(function Transition(
 
 const PendingOrder: React.FC<{item: any}> = ({item}) => {
 
+    console.log("id", item);
+    
     const handlePending = async() => {
         try{
-            const orderDoc = doc(db,"carts",item.id)
+            const orderDoc = doc(db,"carts",item)
             await updateDoc(orderDoc, {...item, status : false})
             setOpen(false);
         }catch(err){

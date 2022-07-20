@@ -10,27 +10,14 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 const Footer: React.FC = () => {
     return (
         <footer className='footer'>
-            <div className='footer__top flex'>
-                <div>
-                    <RestaurantMenuIcon />
-                    <p>Miễn phí vận chuyển, giao hàng tận nơi, tận tình phục vụ khách hàng</p>
-                </div>
-                <div>
-                    <FastfoodIcon />
-                    <p>Miễn phí vận chuyển, giao hàng tận nơi, tận tình phục vụ khách hàng</p>
-                </div>
-                <div>
-                    <BeenhereIcon />
-                    <p>Miễn phí vận chuyển, giao hàng tận nơi, tận tình phục vụ khách hàng</p>
-                </div>
-            </div>
-            <div className='footer__main'>
+            
+            {/* <div className='footer__main'>
                 <h2> <span>Recreate</span> a Recipe</h2>
                 <p>Figure out what is in your food! Have you ever looked at a commercial
                     food product and wondered how to make it? Not a problem. Use this professional technique
                     to recreate a recipe from any nutrition label.
                 </p>
-            </div>
+            </div> */}
             <div className='footer__bot '>
                 <h3>About us</h3>
                 <div>

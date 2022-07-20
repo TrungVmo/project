@@ -20,9 +20,10 @@ const Transition = React.forwardRef(function Transition(
 
 const AcceptOrder: React.FC<{item: any}> = ({item}) => {
 
+    
     const handleAccept = async() => {
         try{
-            const orderDoc = doc(db,"carts",item.id)
+            const orderDoc = doc(db,"carts",item)
             await updateDoc(orderDoc, {...item, status : true})
             setOpen(false);
         }catch(err){

@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteFood from './DeleteFood';
 import UpdateFood from './UpdateFood';
-import ProductAdmin from '../Contents/ProductAdmin';
+import ProductAdmin from './Contents/ProductAdmin';
 import { useDispatch, useSelector } from 'react-redux';
 import {listFoods} from '../../../redux/actions/Food';
 import { ItemFood } from '../../../redux/constants';
@@ -18,9 +18,10 @@ const FoodManage: React.FC = () => {
 
     const dispath = useDispatch<any>();
     const foodData = useSelector((state: any) => state.foodList.data)
-    
+
     useEffect(() => {
         dispath(listFoods());
+
     },[])
     
 
@@ -59,7 +60,7 @@ const FoodManage: React.FC = () => {
                                     <img src={item.image} alt='nothing' className='imgFoodManage' />
                                 </TableCell>
                                 <TableCell align="center">
-                                    <DeleteFood item={item} />
+                                    <DeleteFood item={item}  />
                                     <UpdateFood item={item} />
                                 </TableCell>
                             </TableRow>

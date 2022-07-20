@@ -1,6 +1,6 @@
 import { actionsCategory } from "../actions/Category";
 
-const initialState: object = {
+const initialState = {
     data: [],
     loading: true
 }
@@ -15,6 +15,11 @@ const getCatesReducer = (state = initialState, action: any) => {
             return {...state, loading: false, data: action.payload}
         case actionsCategory.GET_CATEGORY_FAIL:
             return {...state, loading: false, data: action.payload}
+
+            // 
+        case actionsCategory.ADD_CATEGORY_SUCCESS:
+            return {...state, loading: false, data: [...state.data, action.payload]}
+        
         default:
             return state            
     }

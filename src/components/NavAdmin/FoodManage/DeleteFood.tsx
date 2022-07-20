@@ -37,7 +37,7 @@ const DeleteFood: React.FC<{item: any}> = ({item}) => {
     return (
         <>
         
-        <DeleteIcon onClick={handleClickOpen} />
+        <DeleteIcon onClick={handleClickOpen} className="icon__delete" />
         <Dialog
             open={open}
             TransitionComponent={Transition}
@@ -45,10 +45,10 @@ const DeleteFood: React.FC<{item: any}> = ({item}) => {
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle>{"Bạn có muốn xóa không?"}</DialogTitle>
+            <DialogTitle>{"Do you want to remove this?"}</DialogTitle>
             <DialogActions>
-            <Button onClick={handleClose}>Bỏ qua</Button>
-            <Button onClick={handleRemove}>Đồng ý</Button>
+            <Button onClick={handleClose}>No</Button>
+            <Button onClick={handleRemove}>Yes</Button>
             </DialogActions>
         </Dialog>
             

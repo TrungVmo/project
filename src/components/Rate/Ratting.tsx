@@ -5,7 +5,7 @@ import { db } from '../../firebase';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface Test{
-    item: any
+    item: any,
 }
 
 const RatingComment:React.FC<Test> = ({item}) => {
@@ -35,18 +35,18 @@ const RatingComment:React.FC<Test> = ({item}) => {
                         <AccountCircleIcon style={{fontSize: 50}} />
                         <div>
                             <p>
-                                <strong>{userData?.lastName}</strong>
+                                <strong>{userData?.firstName} {userData?.lastName}</strong>
                             </p>
                             <Rating
                                 name="rate-only"
-                                // value={parseInt(item.rate)}
-                                defaultValue={parseInt(item.rate)}
+                                value={parseInt(item.rate)}
+                                // defaultValue={parseInt(item.rate)}
                                 readOnly
                             />
                             <p>
                                 <span>{item.date}</span>
                             </p>
-                            <p>Đánh giá: {item.comment}</p>
+                            <p>Comment: {item.comment}</p>
                         </div>
                     </>
                 ) : (

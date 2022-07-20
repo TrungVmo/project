@@ -1,5 +1,5 @@
 .detail{
-    padding: 60px 8%;
+    padding: 100px 8%;
     /* justify-content: space-between; */
 }
 .detail-img, .detail-description{
@@ -14,8 +14,47 @@
     box-sizing: border-box;
 }
 
-/*  */
+.detail-description p{
+    padding-bottom: 20px;
+}
 
+.detail__quantity{
+    width: max-content;
+    box-sizing: border-box;
+    border: 1px solid grey;
+    display: flex;
+    border-radius: 2px;
+}
+
+.detail__quantity button{
+    padding: 5px 10px;
+    border: unset;
+    background: unset;
+}
+
+.detail__quantity button:hover{
+    cursor: pointer;
+    background: grey;
+}
+
+.detail__quantity button:nth-child(1){
+    border-radius: 2px 0 0 2px;
+}
+
+.detail__quantity button:nth-last-child(1){
+    border-radius: 0 2px 2px 0;
+}
+.detail__quantity div{
+    padding: 5px 20px;
+    border-right: 1px solid grey;
+    border-left: 1px solid grey;
+}
+
+/*  */
+.rating{
+    padding: 0 8% 8%;
+    box-sizing: border-box;
+}
 .rating-top{
     padding: 20px;
     box-sizing: border-box;
