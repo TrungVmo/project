@@ -20,22 +20,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import usePagination from "../../Commons/Pagination";
 
-const MenuLi: React.FC<{item: string}> = ({item}) => {
-
-    const [show, setShow] = useState<boolean>(false);
-    const handleShow = () => {
-        if(!show){
-            setShow(true)
-        }
-    }
-    return(
-        <li onClick={handleShow}>
-            <span>{item}</span>
-            {/* {show && <ArrowDropDownIcon />} */}
-        </li>
-    )
-}
 
 const Menu: React.FC = () => {
     
@@ -51,13 +37,13 @@ const Menu: React.FC = () => {
     },[])
 
     // -------------------------------------------
-    const [page, setPage] = useState<object[]>([]);
+    // const [page, setPage] = useState<object[]>([]);
     const [onTest, setOnTest] = useState<any>();
 
     const oneTest = async() => {
         const first = query(collection(db, "Food-product"), limit(2));
         const documentSnapshots = await getDocs(first);
-        setPage(documentSnapshots.docs.map((doc) => ({...doc.data()})));
+        // setPage(documentSnapshots.docs.map((doc) => ({...doc.data()})));
         
         const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1] ;
         setOnTest(lastVisible);
@@ -69,27 +55,7 @@ const Menu: React.FC = () => {
     },[]);
 
     // ----------------------------------------------------
-    const nextPage = async() => {
-
-        const next = query(collection(db, "Food-product"),
-        startAfter(onTest),
-        limit(2));
-        
-        const ccccS= await getDocs(next);
-        setOnTest(ccccS.docs[ccccS.docs.length-1])
-        setPage(ccccS.docs.map((doc) => ({...doc.data()})));
-    }
-    
-    const prevPage = async() => {
-
-        const next = query(collection(db, "Food-product"),
-        // endBefore(onTest),
-        limit(2));        
-        const ccccS= await getDocs(next);
-        setOnTest(ccccS.docs[0])
-        setPage(ccccS.docs.map((doc) => ({...doc.data()})));
-    }
-    // ------------------------------------------
+   
     const [typeCate, setTypeCate] = React.useState('');
    
     const handleChangeType = (event: SelectChangeEvent) => {
@@ -103,49 +69,15 @@ const Menu: React.FC = () => {
     const handleChangeCost = (event: SelectChangeEvent) => {
         setCost(event.target.value as string);
     };
-
-    // const [list, setList] = useState([]);
-    // const [page, setPage] = useState(1);
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         await query(collection(db, "Food-product"),
-    //             limit(2))
-    //             .onSnapshot(function(querySnapshot) { 
-    //                 var items = [];
-    //                 querySnapshot.forEach(function(doc) {
-    //                     items.push({ key: doc.id, ...doc.data() });
-    //                 });
-    //                 console.log('first item ', items[0])
-    //                 setList(items);
-    //             })
-    //     };
-    //     fetchData();
-    // }, []);
-
-    // const showNext = ({ item }) => {
-    //     if(list.length === 0) {
-    //         alert("Thats all we have for now !")
-    //     } else {
-    //         const fetchNextData = async () => {
-    //             await firebase.firestore().collection('users')
-    //                 .orderBy('created', 'desc')
-    //                 .limit(5)
-    //                 .startAfter(item.created)
-    //                 .onSnapshot(function(querySnapshot) {
-    //                     const items = [];
-    //                     querySnapshot.forEach(function(doc) {
-    //                         items.push({ key: doc.id, ...doc.data() });
-    //                     });
-    //                     setList(items);
-    //                     setPage(page + 1)
-    //                 })
-    //         };
-    //         fetchNextData();
-    //     }
-    // };
     
-    
+    const [page, setPage] = useState<number>(1)
+    const count = Math.ceil(listFood.length / 4);
+
+    const _DATA = usePagination(listFood, 4);
+    const handleChange = (e: any,p: any) => {
+        setPage(p);
+        _DATA.jump(p);
+    }
     
     return (
         <div className='menu'>
@@ -196,9 +128,16 @@ const Menu: React.FC = () => {
                     </FormControl>
                     
                 </div>
+                <Pagination count={count}
+                    size="large"
+                    page={page}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={handleChange} 
+                />
                 <div className='menu__content-list'>
                     
-                    { !loading ?(listFood && listFood.map((item: ItemFood, index: number) => (
+                    { !loading ?(_DATA && _DATA.currentData().map((item: ItemFood, index: number) => (
                         <Link to={`/detail/${item.id}`}>
                              <ListFood key={index} item={item} loading={loading} />
                          </Link>  
@@ -207,8 +146,8 @@ const Menu: React.FC = () => {
                     {
                         !loading && (
                             <div>
-                                <ArrowCircleLeftIcon onClick={prevPage} />
-                                <ArrowCircleRightIcon onClick={nextPage} />
+                                {/* <ArrowCircleLeftIcon onClick={prevPage} />
+                                <ArrowCircleRightIcon onClick={nextPage} /> */}
                             </div>
                         )
                     }
@@ -216,6 +155,7 @@ const Menu: React.FC = () => {
                         <Pagination count={listFood?.length} color="primary" />
                     </Stack> */}
                 </div>
+                
             </div>
         </div>
     );
