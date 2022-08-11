@@ -3,9 +3,10 @@ import FormFilter from '../../components/FormFilter';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilterFood, listFoods } from '../../redux/actions/Food';
-
+import { Pagination } from '@mui/material';
 import ListFood from '../../components/ListFood/ListFood';
 import {ItemFood} from '../../redux/constants';
+import usePagination from "../../Commons/Pagination";
 
 const FilterType: React.FC = () => {
 
@@ -22,7 +23,15 @@ const FilterType: React.FC = () => {
         }
     },[type]);
 
+    const [page, setPage] = useState<number>(1)
+    const count = Math.ceil(filterList.length / 4);
     
+    const _DATA = usePagination(filterList, 4);
+    const handleChange = (e: any,p: any) => {
+        setPage(p);
+        _DATA.jump(p);
+    }
+
     return (
         <div className='menu'>
             <div className='menu__top'>
@@ -33,10 +42,17 @@ const FilterType: React.FC = () => {
                     <span className='span'>Delcious Food Menu</span>
                     <FormFilter />
                 </div>
+                <Pagination count={count}
+                    size="large"
+                    page={page}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={handleChange} 
+                />
                 <div className='menu__content-list'>
                     
                     { 
-                        filterList && filterList.map((item: ItemFood, index: number) => (
+                        filterList && _DATA.currentData().map((item: ItemFood, index: number) => (
                         <Link to={`/detail/${item.id}`}>
                             <ListFood key={index} item={item} loading={false} />
                         </Link>  

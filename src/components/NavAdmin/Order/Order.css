@@ -4,3 +4,7 @@
 .pending{
     color: red !important;
 }
+
+div svg:hover{
+    cursor: pointer;
+}

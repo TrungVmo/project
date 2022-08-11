@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
                     <InstagramIcon />
                 </div>
                 <p>
-                    Tất cả bản quyền được thực hiện bới tôi, tôi yêu 2022
+                All copyrights are made by me, i love 2022
                 </p>
             </div>
         </footer>

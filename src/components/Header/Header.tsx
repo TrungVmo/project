@@ -124,6 +124,7 @@ const Header: React.FC = () => {
 
     const countCart = useSelector((state: any) => state.cartList);
 
+    
     // let ca = localStorage.getItem('cart');
     // let cart = ca ? JSON.parse(ca ? ca : "") : 0; 
 

@@ -31,6 +31,8 @@ const Carts: React.FC = () => {
             alert('succes')
            }, 1000) 
         }
+
+        await dispatch({type: 'REMOVE_COUNT_CART', payload: 0});
     }
 
    
